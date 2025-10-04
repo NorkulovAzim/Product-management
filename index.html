@@ -6,12 +6,23 @@
     <title>Product Management</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="shortcut icon" href="./icon1.svg" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <section>
       <div class="container">
-        <div class="product-title">
-          <h1>Mahsulot Boshqaruvi</h1>
+        <div class="product-wrap">
+          <div class="product-title">
+            <h1>Mahsulot Boshqaruvi</h1>
+          </div>
+
+          <i class="fa-solid fa-cart-shopping"><span>0</span></i>
         </div>
 
         <div class="box-wrap">
@@ -19,9 +30,9 @@
             <div class="form-container">
               <h2>Yangi Mahsulot Qo'shish</h2>
 
-              <form>
+              <form id="productForm">
                 <label for="nomi">Mahsulot nomi:</label>
-                <input type="text" id="nomi" name="nomi" />
+                <input type="text" id="nomi" name="nomi" required />
 
                 <label for="rasm">Rasm URL:</label>
                 <input
@@ -32,23 +43,23 @@
                 />
 
                 <label for="narx">Narxi:</label>
-                <input type="number" id="narx" name="narx" />
+                <input type="number" id="narx" name="narx" required />
 
                 <label for="soni">Mahsulot soni:</label>
-                <input type="number" id="soni" name="soni" />
+                <input type="number" id="soni" name="soni" required />
 
                 <div class="sale-box">
                   <input type="checkbox" id="skidka" name="skidka" />
-                  <label
-                    for="skidka"
-                    style="display: inline; font-weight: normal"
-                    >Chegirma bo'lsa</label
-                  >
+                  <label for="skidka">Chegirma bo'lsa</label>
+                </div>
+
+                <div id="discount-field" style="display: none">
+                  <label for="sale">Chegirma (%):</label>
+                  <input type="number" id="sale" name="sale" />
                 </div>
 
                 <button type="submit" class="add-btn">Mahsulot qo'shish</button>
 
-                <!-- From Uiverse.io by vinodjangid07 -->
                 <div class="loader">
                   <div class="truckWrapper">
                     <div class="truckBody">
@@ -185,26 +196,22 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
           <div class="second-box">
             <div class="right-box">
               <div class="product-table">
-                <table border="1" cellpadding="8">
-                  <tr>
-                    <th>Mahsulot</th>
-                    <th>Narxi</th>
-                    <th>Mahsulot soni</th>
-                    <th>Chegirma (%)</th>
-                    <th>Jami</th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr4Fo2rTO4AovAp8Qpz4bg9p_UkHTmEkNXIQ&s"
-                        alt=""
-                      />
-                    </td>
-                    <td>10.000 UZS</td>
-                    <td>10</td>
-                    <td>10%</td>
-                    <td>90.000 UZS</td>
-                  </tr>
+                <table
+                  id="productTable"
+                  border="1"
+                  cellpadding="8"
+                  style="display: none"
+                >
+                  <thead>
+                    <tr>
+                      <th>Mahsulot</th>
+                      <th>Narxi</th>
+                      <th>Mahsulot soni</th>
+                      <th>Chegirma (%)</th>
+                      <th>Jami</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBody"></tbody>
                 </table>
               </div>
             </div>
