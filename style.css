@@ -274,7 +274,6 @@ table img {
   position: relative;
   align-items: center;
   justify-content: flex-end;
-  overflow-x: hidden;
 }
 
 .truckBody {
@@ -361,4 +360,18 @@ table img {
 
 .loader {
   display: block;
+}
+
+.delete-btn {
+  padding: 4px;
+  border-radius: 8px;
+  background: rgb(255, 64, 64);
+  border: none;
+  margin-left: 4px;
+}
+
+.edit-btn {
+  padding: 4px;
+  border-radius: 8px;
+  border: none;
 }

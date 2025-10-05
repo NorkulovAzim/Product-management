@@ -20,7 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const discountField = document.getElementById("discount-field");
 
   skidka.addEventListener("change", () => {
-    discountField.style.display = skidka.checked ? "block" : "none";
+    if (skidka.checked) {
+      discountField.style.display = "block";
+      loader.style.display = "none";
+    } else {
+      discountField.style.display = "none";
+      loader.style.display = "block";
+    }
   });
 
   form.addEventListener("submit", (e) => {
@@ -52,13 +58,24 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${quantity}</td>
             <td>${discount}%</td>
             <td>${total.toLocaleString()} UZS</td>
+            <td>
+                <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+                <button class="delete-btn"><i class="fa-solid fa-xmark"></i></button>
+            </td>
           `;
 
     tableBody.appendChild(row);
 
     table.style.display = "table";
+    loader.style.display = "block";
 
     form.reset();
     discountField.style.display = "none";
+
+    row.querySelector(".delete-btn").addEventListener("click", () => {
+      if (confirm("O'chirishni hohlaysizmi?")) {
+        row.remove();
+      }
+    });
   });
 });
