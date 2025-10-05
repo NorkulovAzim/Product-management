@@ -47,6 +47,7 @@ function addRow(image, price, quantity, discount, total) {
     if (confirm("O‘chirishni hohlaysizmi?")) {
       row.remove();
       saveToLocalStorage();
+      cartCounter();
     }
   });
 
@@ -54,6 +55,7 @@ function addRow(image, price, quantity, discount, total) {
     document.getElementById("nomi").focus();
     row.remove();
     saveToLocalStorage();
+    cartCounter();
   });
 
   tableBody.appendChild(row);
@@ -97,8 +99,22 @@ form.addEventListener("submit", (e) => {
   form.reset();
   discountField.style.display = "none";
   loader.style.display = "block";
+
+  cartCounter();
 });
 
 document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
 
+function cartCounter() {
+  const cartIcon = document.querySelector("#cartCount span");
+  const totalItems = document.querySelectorAll("#tableBody tr").length;
+  cartIcon.textContent = totalItems;
+}
 
+document.addEventListener("DOMContentLoaded", () => {
+  cartCount();
+});
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+});
