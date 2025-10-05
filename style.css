@@ -368,6 +368,7 @@ table img {
   background: rgb(255, 64, 64);
   border: none;
   margin-left: 4px;
+  color: white;
 }
 
 .edit-btn {
