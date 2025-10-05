@@ -375,3 +375,7 @@ table img {
   border-radius: 8px;
   border: none;
 }
+
+.comment {
+  background-color: transparent;
+}
