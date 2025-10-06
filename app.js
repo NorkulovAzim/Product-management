@@ -29,7 +29,6 @@ function saveToLocalStorage() {
     });
   });
   localStorage.setItem("products", JSON.stringify(rows));
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
 }
 
 function loadFromLocalStorage() {
@@ -116,6 +115,10 @@ form.addEventListener("submit", (e) => {
   const existing = cartItems.find((item) => item.name === name);
   if (existing) {
     existing.quantity += quantity;
+    existing.total = existing.price * existing.quantity;
+    if (existing.discount > 0) {
+      existing.total -= (existing.total * existing.discount) / 100;
+    }
   } else {
     cartItems.push({ name, image, price, quantity, discount, total });
   }
