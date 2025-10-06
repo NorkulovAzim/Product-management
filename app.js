@@ -138,8 +138,7 @@ form.addEventListener("submit", (e) => {
 
   const existing = cartItems.find((item) => item.name === name);
   if (existing) {
-    existing.quantity = toNumber(existing.quantity) + Number(quantity);
-    existing.total = toNumber(existing.total) + Number(total);
+    existing.quantity += quantity;
   } else {
     cartItems.push({
       name,
