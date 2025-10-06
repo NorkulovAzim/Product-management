@@ -267,7 +267,7 @@ table img {
 }
 
 .truckWrapper {
-  width: 200px;
+  width: 300px;
   height: 100px;
   display: flex;
   flex-direction: column;
@@ -317,6 +317,7 @@ table img {
   bottom: 0;
   align-self: flex-end;
   border-radius: 3px;
+
 }
 .road::before {
   content: "";
@@ -328,6 +329,7 @@ table img {
   border-radius: 3px;
   animation: roadAnimation 1.4s linear infinite;
   border-left: 10px solid white;
+  display: none;
 }
 .road::after {
   content: "";
@@ -339,14 +341,16 @@ table img {
   border-radius: 3px;
   animation: roadAnimation 1.4s linear infinite;
   border-left: 4px solid white;
+  display: none;
 }
 
 .lampPost {
   position: absolute;
-  bottom: -30px;
-  right: -90%;
+  bottom: -28px;
+  right: -20%;
   height: 90px;
   animation: roadAnimation 1.4s linear infinite;
+
 }
 
 @keyframes roadAnimation {
@@ -498,4 +502,8 @@ table img {
 
 .cart-close-btn:hover {
   color: #00adb5;
+}
+
+.checkout-btn a {
+  text-decoration: none;
 }

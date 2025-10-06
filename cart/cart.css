@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #393e46;
+  color: #fff;
+  padding: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+  background: #222831;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+input,
+button {
+  margin: 5px;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  cursor: pointer;
+  background: #00adb5;
+  color: white;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #02979f;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #eeeeee;
+  color: #222;
+  margin-bottom: 40px;
+}
+
+table th,
+table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.cart-title {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-title h1 {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.cart-title a {
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  background-color: #00adb5;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: start;
+  width: 330px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table img {
+  border-radius: 5px;
+}
+
+#side-bar-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 28px;
+  color: #00adb5;
+  cursor: pointer;
+}
+
+#side-bar-btn span {
+  background: red;
+  color: #fff;
+  border-radius: 50%;
+  padding: 3px 8px;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.cart-sec {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 350px;
+  height: 100%;
+  background: #00adb5;
+  color: #fff;
+  transition: right 0.3s ease;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.cart-sec.show {
+  right: 0;
+}
+
+.header-cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-cart h2 {
+  font-size: 24px;
+}
+
+.cart-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.cart-menu {
+  margin-top: 20px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.price-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.checkout-btn {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkout-btn a {
+  color: white;
+}
+
+td img {
+  background-color: transparent;
+}

@@ -16,19 +16,24 @@ const countSpan = document.querySelector("#side-bar-btn span");
 
 let cartItems = [];
 
+function toNumber(val) {
+  return Number(val) || 0;
+}
+
 function saveToLocalStorage() {
   const rows = [];
   tableBody.querySelectorAll("tr").forEach((row) => {
     const cells = row.querySelectorAll("td");
     rows.push({
       image: cells[0].querySelector("img").src,
-      price: cells[1].textContent,
-      quantity: cells[2].textContent,
-      discount: cells[3].textContent,
-      total: cells[4].textContent,
+      price: cells[1].innerHTML,
+      quantity: cells[2].innerHTML,
+      discount: cells[3].innerHTML,
+      total: cells[4].innerHTML,
     });
   });
   localStorage.setItem("products", JSON.stringify(rows));
+  localStorage.setItem("cartItems", JSON.stringify(cartItems));
 }
 
 function loadFromLocalStorage() {
@@ -39,7 +44,15 @@ function loadFromLocalStorage() {
     addRow(p.image, p.price, p.quantity, p.discount, p.total)
   );
 
-  cartItems = savedCart;
+  cartItems = savedCart.map((it) => ({
+    name: it.name,
+    image: it.image,
+    price: toNumber(it.price),
+    quantity: toNumber(it.quantity),
+    discount: toNumber(it.discount),
+    total: toNumber(it.total),
+  }));
+
   renderCart();
 
   if (saved.length > 0) table.style.display = "table";
@@ -61,19 +74,30 @@ function addRow(image, price, quantity, discount, total) {
 
   row.querySelector(".delete-btn").addEventListener("click", () => {
     if (confirm("O‘chirishni hohlaysizmi?")) {
+      const productName = row
+        .querySelector("td:nth-child(2)")
+        .textContent.trim();
+
       row.remove();
+
+      cartItems = cartItems.filter((item) => item.name !== productName);
+
       saveToLocalStorage();
-      cartCounter();
       renderCart();
+      cartCounter();
     }
   });
 
   row.querySelector(".edit-btn").addEventListener("click", () => {
+    const productName = row.querySelector("td:nth-child(2)").textContent.trim();
     document.getElementById("nomi").focus();
     row.remove();
+
+    cartItems = cartItems.filter((item) => item.name !== productName);
+
     saveToLocalStorage();
-    cartCounter();
     renderCart();
+    cartCounter();
   });
 
   tableBody.appendChild(row);
@@ -114,13 +138,17 @@ form.addEventListener("submit", (e) => {
 
   const existing = cartItems.find((item) => item.name === name);
   if (existing) {
-    existing.quantity += quantity;
-    existing.total = existing.price * existing.quantity;
-    if (existing.discount > 0) {
-      existing.total -= (existing.total * existing.discount) / 100;
-    }
+    existing.quantity = toNumber(existing.quantity) + Number(quantity);
+    existing.total = toNumber(existing.total) + Number(total);
   } else {
-    cartItems.push({ name, image, price, quantity, discount, total });
+    cartItems.push({
+      name,
+      image,
+      price: Number(price),
+      quantity: Number(quantity),
+      discount: Number(discount),
+      total: Number(total),
+    });
   }
 
   renderCart();
@@ -130,14 +158,6 @@ form.addEventListener("submit", (e) => {
   discountField.style.display = "none";
   loader.style.display = "block";
   cartCounter();
-
-  saveToLocalStorage();
-  table.style.display = "table";
-  form.reset();
-  discountField.style.display = "none";
-  loader.style.display = "block";
-
-  cartCounter();
 });
 
 function renderCart() {
@@ -145,7 +165,8 @@ function renderCart() {
   let total = 0;
 
   cartItems.forEach((item, index) => {
-    total += item.total;
+    const itemTotal = toNumber(item.total);
+    total += itemTotal;
 
     const div = document.createElement("div");
     div.classList.add("cart-item");
@@ -153,7 +174,9 @@ function renderCart() {
       <img src="${item.image}" width="50"  alt="">
       <div>
         <p>${item.name}</p>
-        <span>${item.quantity} x ${item.price.toLocaleString()} UZS</span>
+        <span>${toNumber(item.quantity)} x ${Number(
+      item.price
+    ).toLocaleString()} UZS</span>
       </div>
       <button class="btn shop-close-btn" data-index="${index}">
         <i class="fas fa-close"></i>
@@ -167,7 +190,7 @@ function renderCart() {
     cartMenu.appendChild(div);
   });
 
-  priceBar.textContent = `${cartItems.length} Product${
+  priceBar.textContent = `${cartItems.length} Mahsulot(lar)${
     cartItems.length > 1 ? "s" : ""
   }`;
   priceTotal.textContent = `${total.toLocaleString()} UZS`;
@@ -181,6 +204,8 @@ function renderCart() {
       cartCounter();
     });
   });
+
+  cartCounter();
 }
 
 document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
@@ -188,15 +213,11 @@ document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
 function cartCounter() {
   const cartIcon = document.querySelector("#side-bar-btn span");
   const totalItems = document.querySelectorAll("#tableBody tr").length;
-  cartIcon.textContent = totalItems;
+  if (cartIcon) cartIcon.textContent = totalItems;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   cartCounter();
-});
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
 });
 
 openCartBtn.addEventListener("click", () => {
