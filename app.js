@@ -12,6 +12,7 @@ const closeCartBtn = document.querySelector(".cart-close-btn");
 const cartMenu = document.querySelector(".cart-menu");
 const priceBar = document.querySelector(".price-bar p");
 const priceTotal = document.querySelector(".price-bar span");
+const countSpan = document.querySelector("#side-bar-btn span");
 
 let cartItems = [];
 
@@ -182,7 +183,7 @@ function renderCart() {
 document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
 
 function cartCounter() {
-  const cartIcon = document.querySelector("#cartCount span");
+  const cartIcon = document.querySelector("#side-bar-btn span");
   const totalItems = document.querySelectorAll("#tableBody tr").length;
   cartIcon.textContent = totalItems;
 }
