@@ -6,6 +6,15 @@ const table = document.getElementById("productTable");
 const tableBody = document.getElementById("tableBody");
 const cartCount = document.getElementById("cartCount");
 
+const cart = document.getElementById("cart");
+const openCartBtn = document.getElementById("side-bar-btn");
+const closeCartBtn = document.querySelector(".cart-close-btn");
+const cartMenu = document.querySelector(".cart-menu");
+const priceBar = document.querySelector(".price-bar p");
+const priceTotal = document.querySelector(".price-bar span");
+
+let cartItems = [];
+
 function saveToLocalStorage() {
   const rows = [];
   tableBody.querySelectorAll("tr").forEach((row) => {
@@ -19,13 +28,20 @@ function saveToLocalStorage() {
     });
   });
   localStorage.setItem("products", JSON.stringify(rows));
+  localStorage.setItem("cartItems", JSON.stringify(cartItems));
 }
 
 function loadFromLocalStorage() {
   const saved = JSON.parse(localStorage.getItem("products")) || [];
+  const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
   saved.forEach((p) =>
     addRow(p.image, p.price, p.quantity, p.discount, p.total)
   );
+
+  cartItems = savedCart;
+  renderCart();
+
   if (saved.length > 0) table.style.display = "table";
 }
 
@@ -48,6 +64,7 @@ function addRow(image, price, quantity, discount, total) {
       row.remove();
       saveToLocalStorage();
       cartCounter();
+      renderCart();
     }
   });
 
@@ -56,6 +73,7 @@ function addRow(image, price, quantity, discount, total) {
     row.remove();
     saveToLocalStorage();
     cartCounter();
+    renderCart();
   });
 
   tableBody.appendChild(row);
@@ -94,6 +112,21 @@ form.addEventListener("submit", (e) => {
     `${total.toLocaleString()} UZS`
   );
 
+  const existing = cartItems.find((item) => item.name === name);
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    cartItems.push({ name, image, price, quantity, discount, total });
+  }
+
+  renderCart();
+  saveToLocalStorage();
+  table.style.display = "table";
+  form.reset();
+  discountField.style.display = "none";
+  loader.style.display = "block";
+  cartCounter();
+
   saveToLocalStorage();
   table.style.display = "table";
   form.reset();
@@ -102,6 +135,49 @@ form.addEventListener("submit", (e) => {
 
   cartCounter();
 });
+
+function renderCart() {
+  cartMenu.innerHTML = "";
+  let total = 0;
+
+  cartItems.forEach((item, index) => {
+    total += item.total;
+
+    const div = document.createElement("div");
+    div.classList.add("cart-item");
+    div.innerHTML = `
+      <img src="${item.image}" width="50"  alt="">
+      <div>
+        <p>${item.name}</p>
+        <span>${item.quantity} x ${item.price.toLocaleString()} UZS</span>
+      </div>
+      <button class="btn shop-close-btn" data-index="${index}">
+        <i class="fas fa-close"></i>
+      </button>
+    `;
+
+    div.style.display = "flex";
+    div.style.justifyContent = "space-between";
+    div.style.alignItems = "center";
+    div.style.padding = "10px 0";
+    cartMenu.appendChild(div);
+  });
+
+  priceBar.textContent = `${cartItems.length} Product${
+    cartItems.length > 1 ? "s" : ""
+  }`;
+  priceTotal.textContent = `${total.toLocaleString()} UZS`;
+
+  document.querySelectorAll(".shop-close-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const index = e.target.closest("button").dataset.index;
+      cartItems.splice(index, 1);
+      renderCart();
+      saveToLocalStorage();
+      cartCounter();
+    });
+  });
+}
 
 document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
 
@@ -112,9 +188,17 @@ function cartCounter() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  cartCount();
+  cartCounter();
 });
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+});
+
+openCartBtn.addEventListener("click", () => {
+  cart.classList.add("show");
+});
+
+closeCartBtn.addEventListener("click", () => {
+  cart.classList.remove("show");
 });
